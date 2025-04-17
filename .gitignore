@@ -21,8 +21,11 @@
 /build
 
 # misc
+.venv
 .DS_Store
 *.pem
+*.pyc
+*.pyo
 
 # debug
 npm-debug.log*

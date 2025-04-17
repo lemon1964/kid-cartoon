@@ -1,0 +1,20 @@
+GET https://api.themoviedb.org/3/search/movie?api_key=87e1a7b3cb56c87b79b31095e34b9df0&query=маша&language=ru
+
+
+###
+GET https://api.themoviedb.org/3/discover/movie?api_key=87e1a7b3cb56c87b79b31095e34b9df0&with_genres=16&language=ru&region=RU
+
+
+###
+GET https://api.themoviedb.org/3/movie/36161?api_key=87e1a7b3cb56c87b79b31095e34b9df0&append_to_response=videos&language=ru
+
+
+###
+GET https://api.themoviedb.org/3/movie/36161?api_key=87e1a7b3cb56c87b79b31095e34b9df0
+
+
+###
+GET https://api.themoviedb.org/3/movie/1241982?api_key=87e1a7b3cb56c87b79b31095e34b9df0&append_to_response=videos&language=ru
+
+
+
