@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# KidCartoon
 
-## Getting Started
+**KidCartoon** — простое и удобное детское приложение для поиска мультфильмов по голосу, с красивым UI и встроенным просмотром через YouTube.
 
-First, run the development server:
+## 🎓 Цель
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+KidCartoon даёт ребёнку подарок за выполнение задач в приложениях Kid (KidBe). После успеха он может кликнуть на иконку, назвать свой любимый мультик и посмотреть его 5 минут!
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Фичи
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Главная / случайные мультики от TMDb
+- /cartoon — режим выбора из популярных мультиков (с YouTube ID)
+- Голосовой поиск (вызов SpeechRecognition)
+- Озвучка приглашения и поиска голосом (speechSynthesis)
+- Таймер 5 минут на просмотр:
+  - Встроенное YouTube-видео: остановка + озвучка + редирект
+  - Внешний YouTube: переход в новую вкладку + озвучка перед и через 5 минут
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Технологии
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Next.js 14 (App Router)](https://nextjs.org/)
+- TypeScript, Tailwind CSS
+- framer-motion (анимации)
+- [TMDb API](https://www.themoviedb.org/documentation/api) для поиска
+- YouTube embed / search
+- SpeechRecognition (Web Speech API)
+- speechSynthesis
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Структура
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `/` — главная страница (TMDb)
+- `/cartoon` — грид из 20 любимых мультиков (cartoonVideoMap)
+- `/cartoon/[id]` — показ конкретного мультика из YouTube
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Тодо / идеи на будущее
+
+- [ ] Режим доступа к cartoon/ид только после выполнения задач
+- [ ] Установка ограничений по количеству просмотров в день
+- [ ] Кнопка закрыть / скоро закончить просмотр
+
