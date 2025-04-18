@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState, useRef } from "react";
@@ -8,7 +7,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { audioService } from "@/services/audioService";
 import { cartoonVideoMap } from "@/lib/cartoonVideoMap";
 
-
 const cartoonIds = Object.keys(cartoonVideoMap).map(id => parseInt(id));
 const TMDB_API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY;
 
@@ -17,15 +15,20 @@ export default function CartoonPage() {
   const [visibleMovies, setVisibleMovies] = useState<Movie[]>([]);
   const [recognizedText, setRecognizedText] = useState<string | null>(null);
 
+  const didSpeak = useRef(false);
+
   useEffect(() => {
     audioService.setSpeechLanguage("ru-RU");
-    audioService.speak("Назови мультфильм или героя.");
+    if (!didSpeak.current) {
+      audioService.speak("Назови мультфильм или героя.");
+      didSpeak.current = true;
+    }
 
     const fetchAllMovies = async () => {
       const requests = cartoonIds.map(id =>
-        fetch(
-          `https://api.themoviedb.org/3/movie/${id}?api_key=${TMDB_API_KEY}&language=ru`
-        ).then(res => res.json())
+        fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${TMDB_API_KEY}&language=ru`).then(
+          res => res.json()
+        )
       );
       const results = await Promise.all(requests);
       setMovies(results);
@@ -39,7 +42,6 @@ export default function CartoonPage() {
     const interval = setInterval(() => {
       setVisibleMovies(pickRandom(movies, 6));
     }, 7000);
-
     return () => clearInterval(interval);
   }, [movies]);
 
@@ -88,37 +90,43 @@ export default function CartoonPage() {
       }}
     >
       <div className="text-center text-green-700 drop-shadow-lg mb-6">
-        <h1 className="text-3xl md:text-5xl font-bold mb-4">
+        <h1 className="text-3xl md:text-5xl font-bold mb-2">
           Какой мультфильм ты хочешь посмотреть?
         </h1>
+        <div className="flex justify-center flex-wrap gap-4 mb-4">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="bg-green-400 text-white font-bold px-6 py-3 rounded-xl shadow-lg hover:bg-green-500"
+            onClick={handleVoiceSearch}
+          >
+            🎤 Говорить
+          </motion.button>
 
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="mt-4 bg-green-400 text-white font-bold px-6 py-3 rounded-xl shadow-lg hover:bg-green-500"
-          onClick={handleVoiceSearch}
-        >
-          🎤 Говорить
-        </motion.button>
+          <Link
+            href="/"
+            className="bg-yellow-400 text-black font-bold px-6 py-3 rounded-xl shadow hover:bg-yellow-300"
+          >
+            ← На главную
+          </Link>
+        </div>
 
         {recognizedText && (
           <div className="mt-2 text-lg font-semibold text-white bg-black/30 inline-block px-4 py-2 rounded-lg shadow">
-            Ты сказал: <span className="text-yellow-300">«{recognizedText}»
-            </span>
+            Ты сказал: <span className="text-yellow-300">«{recognizedText}»</span>
           </div>
         )}
       </div>
-
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         <AnimatePresence>
           {visibleMovies.map(movie => (
             <Link href={`/cartoon/${movie.id}`} key={movie.id}>
               <motion.div
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.5 }}
+                key={movie.id}
+                initial={{ opacity: 0.2 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0.2 }}
+                transition={{ duration: 3 }}
                 className="cursor-pointer rounded shadow p-2 bg-white/70 flex flex-col items-center border border-yellow-400 hover:scale-105 transition-transform"
               >
                 {movie.poster_path && (
